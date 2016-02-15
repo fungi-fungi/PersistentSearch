@@ -2,6 +2,7 @@ package com.quinny898.library.persistentsearch.sample;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.MenuItem;
@@ -26,10 +27,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		search = (SearchBox) findViewById(R.id.searchbox);
         search.enableVoiceRecognition(this);
-		for(int x = 0; x < 10; x++){
-			SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_history));
-			search.addSearchable(option);
-		}
+
 		search.setMenuListener(new MenuListener(){
 
 			@Override
@@ -55,6 +53,8 @@ public class MainActivity extends Activity {
 			public void onSearchTermChanged(String term) {
 				//React to the search term changing
 				//Called after it has updated results
+				new LongOperation().execute("");
+
 			}
 
 			@Override
@@ -75,16 +75,16 @@ public class MainActivity extends Activity {
 		});
         search.setOverflowMenu(R.menu.overflow_menu);
         search.setOverflowMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.test_menu_item:
-                        Toast.makeText(MainActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
-                        return true;
-                }
-                return false;
-            }
-        });
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+					case R.id.test_menu_item:
+						Toast.makeText(MainActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
+						return true;
+				}
+				return false;
+			}
+		});
     }
 
 	@Override
@@ -99,6 +99,40 @@ public class MainActivity extends Activity {
 	
 	public void reveal(View v){
 		startActivity(new Intent(this, RevealActivity.class));
+	}
+
+	private class LongOperation extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			for (int i = 0; i < 2; i++) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					Thread.interrupted();
+				}
+			}
+			return "Executed";
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+			for(int x = 0; x < 10; x++){
+				SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_history));
+				search.addSearchable(option);
+			}
+
+			search.showLoading(false);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			search.showLoading(true);
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {}
 	}
 
 	
