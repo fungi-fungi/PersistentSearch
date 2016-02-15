@@ -14,6 +14,7 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.MenuRes;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -54,7 +55,6 @@ public class SearchBox extends RelativeLayout {
 
 	public static final int VOICE_RECOGNITION_CODE = 1234;
 
-	private MaterialMenuView materialMenu;
 	private TextView logo;
 	private EditText search;
 	private Context context;
@@ -77,6 +77,7 @@ public class SearchBox extends RelativeLayout {
 	private boolean searchWithoutSuggestions = true;
 	private boolean animateDrawerLogo = true;
 	private int searchResultLimit = 5;
+	private int inputType = InputType.TYPE_CLASS_TEXT;
 
 	private boolean isVoiceRecognitionIntentSupported;
 	private VoiceRecognitionListener voiceRecognitionListener;
@@ -116,7 +117,6 @@ public class SearchBox extends RelativeLayout {
 		inflate(context, R.layout.searchbox, this);
 		this.searchOpen = false;
 		this.isMic = true;
-		this.materialMenu = (MaterialMenuView) findViewById(R.id.material_menu_button);
 		this.logo = (TextView) findViewById(R.id.logo);
 		this.search = (EditText) findViewById(R.id.search);
 		this.results = (ListView) findViewById(R.id.results);
@@ -125,20 +125,7 @@ public class SearchBox extends RelativeLayout {
 		this.mic = (ImageView) findViewById(R.id.mic);
 		this.overflow = (ImageView) findViewById(R.id.overflow);
 		this.drawerLogo = (ImageView) findViewById(R.id.drawer_logo);
-		materialMenu.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (searchOpen) {
-
-					toggleSearch();
-				} else {
-					if (menuListener != null)
-						menuListener.onMenuClick();
-				}
-			}
-
-		});
+		this.search.setInputType(this.inputType);
 		resultList = new ArrayList<SearchResult>();
 		setAdapter(new SearchAdapter(context, resultList, search));
 		animate = true;
@@ -505,15 +492,6 @@ public class SearchBox extends RelativeLayout {
 	}
 
 	/***
-	 * Set whether the menu button should be shown. Particularly useful for apps that adapt to screen sizes
-	 * @param visibility Whether to show
-	 */
-
-	public void setMenuVisibility(int visibility){
-		materialMenu.setVisibility(visibility);
-	}
-
-	/***
 	 * Set the menu listener
 	 * @param menuListener MenuListener
 	 */
@@ -709,7 +687,7 @@ public class SearchBox extends RelativeLayout {
 	}
 
 	private void search(SearchResult result, boolean resultClicked) {
-		if(!searchWithoutSuggestions && getNumberOfResults() == 0)return;
+		if (!searchWithoutSuggestions && getNumberOfResults() == 0)return;
 		setSearchString(result.title);
 		if (!TextUtils.isEmpty(getSearchText())) {
 			setLogoTextInt(result.title);
@@ -734,10 +712,7 @@ public class SearchBox extends RelativeLayout {
 	}
 
 	private void openSearch(Boolean openKeyboard) {
-		if(animateDrawerLogo){
-			this.materialMenu.animateState(IconState.ARROW);
-			this.drawerLogo.setVisibility(View.GONE);
-		}
+
 		this.logo.setVisibility(View.GONE);
 		this.search.setVisibility(View.VISIBLE);
 		search.requestFocus();
@@ -792,10 +767,7 @@ public class SearchBox extends RelativeLayout {
 	}
 
 	private void closeSearch() {
-		if(animateDrawerLogo){
-			this.materialMenu.animateState(IconState.BURGER);
-			this.drawerLogo.setVisibility(View.VISIBLE);
-		}
+
 		this.logo.setVisibility(View.VISIBLE);
 		this.search.setVisibility(View.GONE);
 		this.results.setVisibility(View.GONE);
@@ -892,6 +864,18 @@ public class SearchBox extends RelativeLayout {
 		return searchResultLimit;
 	}
 
+	/**
+	 * Input type for keyboard
+	 * @param type see more here <a href="http://developer.android.com/reference/android/text/InputType.html">InputType</a>
+	 */
+	public void setInputType(int type){
+		search.setInputType(type);
+	}
+
+	/**
+	 * Limit number of results in view
+	 * @param searchResultLimit max number of results that will be shown to user
+	 */
 	public void setSearchResultLimit(int searchResultLimit) {
 		this.searchResultLimit = searchResultLimit;
 	}

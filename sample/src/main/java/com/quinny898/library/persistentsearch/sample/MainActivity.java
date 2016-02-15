@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -28,9 +29,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		search = (SearchBox) findViewById(R.id.searchbox);
         search.enableVoiceRecognition(this);
-
-
-
+		search.setInputType(InputType.TYPE_CLASS_NUMBER);
 		search.setMenuListener(new MenuListener(){
 
 			@Override
