@@ -2,18 +2,33 @@
 
 A library that implements the persistent search bar seen on apps such as Google Now, Google Maps and Google Play
 
-![GIF of its use](https://raw.githubusercontent.com/Quinny898/PersistentSearch/master/resources/search.gif)
+![GIF of its use](https://imgur.com/PUmdeqe.gif)
 
 
 ## Changes
 
-Now result filtering will be trigerd by changes in
 
+1. Now result filtering will be trigerd by changes in ```ArrayList<SearchResult> searchables``` rather then by TextWatcher(). So now you can implement live search using any async requests.
+2. Filtering has been removed, just set results you want to show
 ```
-ArrayList<SearchResult> searchables
+protected void onPostExecute(ArrayList<String> result) {
+
+	ArrayList<SearchResult> results = new ArrayList<SearchResult>();
+	for(String item : result){
+		SearchResult option = new SearchResult(item, getResources().getDrawable(R.drawable.ic_history));
+		results.add(option);
+	}
+
+	search.addAllResults(results);
+
+	search.showLoading(false);
+}
 ```
 
-rather then by TextWatcher(). So now you can implement live search using any async requests.
+3. Removed ```MaterialMenuView ``` instead regular drawable is used.
+4. You can set up how many results you want to show to user ```public void setSearchResultLimit(int searchResultLimit)```
+5. You can setup which kind of input you want ```public void setInputType(int type)```
+6. Fixed problem with double clicking on back button
 
 ## Usage
 
