@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:theme="@style/RevealTheme" android:name="RevealActivity"></activity>
     </application>
 
 </manifest>

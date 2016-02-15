@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.InputType;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -99,10 +98,6 @@ public class MainActivity extends Activity {
 			search.populateEditText(matches.get(0));
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-	
-	public void reveal(View v){
-		startActivity(new Intent(this, RevealActivity.class));
 	}
 
 	private class LongOperation extends AsyncTask<String, Void, ArrayList<String>> {
