@@ -5,22 +5,21 @@ A library that implements the persistent search bar seen on apps such as Google 
 ![GIF of its use](https://raw.githubusercontent.com/Quinny898/PersistentSearch/master/resources/search.gif)
 
 
+## Changes
+
+Now result filtering will be trigerd by changes in
+
+```
+ArrayList<SearchResult> searchables
+```
+
+rather then by TextWatcher(). So now you can implement live search using any async requests.
+
 ## Usage
 
 Android Studio:
-Add the Sonatype repository if you have not already:
-```
-maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-```
-Import it as a dependency:
-```
-compile 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
-```
 
-Eclipse:
-Import it as a library project
+You will have to clone whole project and import it as a library into your project.
 
 In your layout:
 ```
