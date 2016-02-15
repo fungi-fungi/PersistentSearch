@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 	Boolean isSearch;
 	private SearchBox search;
+	private LongOperation mTask = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		search = (SearchBox) findViewById(R.id.searchbox);
         search.enableVoiceRecognition(this);
+
+
 
 		search.setMenuListener(new MenuListener(){
 
@@ -53,8 +56,10 @@ public class MainActivity extends Activity {
 			public void onSearchTermChanged(String term) {
 				//React to the search term changing
 				//Called after it has updated results
-				new LongOperation().execute("");
-
+				if (mTask != null){
+					mTask.cancel(true);
+				}
+				mTask = (LongOperation) new LongOperation().execute(term);
 			}
 
 			@Override
@@ -101,27 +106,39 @@ public class MainActivity extends Activity {
 		startActivity(new Intent(this, RevealActivity.class));
 	}
 
-	private class LongOperation extends AsyncTask<String, Void, String> {
+	private class LongOperation extends AsyncTask<String, Void, ArrayList<String>> {
 
 		@Override
-		protected String doInBackground(String... params) {
-			for (int i = 0; i < 2; i++) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					Thread.interrupted();
+		protected ArrayList<String> doInBackground(String... params) {
+
+			ArrayList<String> results = new ArrayList<String>();
+
+			try {
+				Thread.sleep(1000);
+				ArrayList<String> list = createTestList();
+
+				for(String item : list){
+					if (item.toLowerCase().matches("(?i).*" + params[0].toLowerCase() + ".*")){
+						results.add(item);
+					}
 				}
+			} catch (InterruptedException e) {
+				Thread.interrupted();
 			}
-			return "Executed";
+
+			return results;
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(ArrayList<String> result) {
 
-			for(int x = 0; x < 10; x++){
-				SearchResult option = new SearchResult("Result " + Integer.toString(x), getResources().getDrawable(R.drawable.ic_history));
-				search.addSearchable(option);
+			ArrayList<SearchResult> results = new ArrayList<SearchResult>();
+			for(String item : result){
+				SearchResult option = new SearchResult(item, getResources().getDrawable(R.drawable.ic_history));
+				results.add(option);
 			}
+
+			search.addAllResults(results);
 
 			search.showLoading(false);
 		}
@@ -132,7 +149,27 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		protected void onProgressUpdate(Void... values) {}
+		protected void onProgressUpdate(Void... values) {
+			search.showLoading(true);
+		}
+	}
+
+	private ArrayList<String> createTestList(){
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("Test 1");
+		list.add("Result 23");
+		list.add("Hello world 167");
+		list.add("How are you 12");
+		list.add("New test");
+		list.add("3345435");
+		list.add("What is you name");
+		list.add("Just one more string");
+		list.add("Good mornign");
+		list.add("Res 12");
+		list.add("API res 11");
+		list.add("API res 23");
+
+		return list;
 	}
 
 	

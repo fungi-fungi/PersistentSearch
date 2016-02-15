@@ -52,7 +52,6 @@ public class RevealActivity extends ActionBarActivity {
 			SearchResult option = new SearchResult("Result "
 					+ Integer.toString(x), getResources().getDrawable(
 					R.drawable.ic_history));
-			search.addSearchable(option);
 		}
 		search.setMenuListener(new MenuListener() {
 
