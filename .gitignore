@@ -4,4 +4,6 @@
 /.idea/libraries
 .DS_Store
 /build
+/library/library.iml
+/sample/sample.iml
 gradle-mvn-push.gradle
