@@ -190,18 +190,19 @@ public class SearchBox extends RelativeLayout {
 					micStateChanged(false);
 					mic.setImageDrawable(getContext().getResources().getDrawable(
 							R.drawable.ic_clear));
+
+					if (listener != null){
+						resultList.clear();
+						listener.onSearchTermChanged(s.toString());
+					}
 				} else {
+					resultList.clear();
 					micStateChanged(true);
 					mic.setImageDrawable(getContext().getResources().getDrawable(
 							R.drawable.ic_action_mic));
 					if(initialResults != null){
 						setInitialResults();
 					}
-				}
-
-				if (listener != null){
-					resultList.clear();
-					listener.onSearchTermChanged(s.toString());
 				}
 			}
 
@@ -598,7 +599,7 @@ public class SearchBox extends RelativeLayout {
 		this.resultList.clear();
 
 		for(int i=0; i < Math.min(results.size(), getSearchResultLimit()); i++){
-			resultList.addAll(results);
+			resultList.add(results.get(i));
 		}
 		mAdapter.notifyDataSetChanged();
 	}
