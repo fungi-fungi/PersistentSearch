@@ -51,6 +51,7 @@
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:imeOptions="flagNoExtractUi"
                 android:layout_alignBottom="@+id/search_icon"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -59,7 +60,6 @@
                 android:ems="10"
                 android:textColor="#212121"
                 android:singleLine="true"
-                android:imeOptions="actionSearch"
                 android:visibility="gone" >
 
                 <requestFocus />
