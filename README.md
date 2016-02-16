@@ -29,6 +29,9 @@ protected void onPostExecute(ArrayList<String> result) {
 4. You can set up how many results you want to show to user ```public void setSearchResultLimit(int searchResultLimit)```
 5. You can setup which kind of input you want ```public void setInputType(int type)```
 6. Fixed problem with double clicking on back button
+7. Show specific message to user in case if there is no results after search.
+8. You can add value to each SearchRequest
+9. You can set any SearchRequest as non clickable.
 
 ## Usage
 
