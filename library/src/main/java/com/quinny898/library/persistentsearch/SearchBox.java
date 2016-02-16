@@ -75,6 +75,7 @@ public class SearchBox extends RelativeLayout {
 	private boolean animateDrawerLogo = true;
 	private int searchResultLimit = 5;
 	private int inputType = InputType.TYPE_CLASS_TEXT;
+	private String noResultsText = "No results";
 
 	private boolean isVoiceRecognitionIntentSupported;
 	private VoiceRecognitionListener voiceRecognitionListener;
@@ -602,6 +603,10 @@ public class SearchBox extends RelativeLayout {
 			resultList.add(results.get(i));
 		}
 
+		if (results.size() == 0){
+			resultList.add(noSearchResults());
+		}
+
 		mAdapter.notifyDataSetChanged();
 	}
 
@@ -857,6 +862,23 @@ public class SearchBox extends RelativeLayout {
 	 */
 	public void setSearchResultLimit(int searchResultLimit) {
 		this.searchResultLimit = searchResultLimit;
+	}
+
+	public String getNoResultsText() {
+		return noResultsText;
+	}
+
+	public void setNoResultsText(String noResultsText) {
+		this.noResultsText = noResultsText;
+	}
+
+	private SearchResult noSearchResults(){
+		return new SearchResult(
+				getNoResultsText(),
+				"",
+				(getContext().getResources().getDrawable(R.drawable.ic_warning)),
+				false
+		);
 	}
 
 	public interface SearchListener {
