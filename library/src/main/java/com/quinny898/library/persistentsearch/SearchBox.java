@@ -770,9 +770,8 @@ public class SearchBox extends RelativeLayout {
 	}
 
 	private void search(String text) {
-		SearchResult option = new SearchResult(text, null);
+		SearchResult option = new SearchResult(text, "", null);
 		search(option, false);
-
 	}
 
 	public static class SearchAdapter extends ArrayAdapter<SearchResult> {

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onResultClick(SearchResult result) {
 				//React to a result being clicked
+				Log.d("TEST", result.value);
 			}
 
 			@Override
@@ -128,7 +130,11 @@ public class MainActivity extends Activity {
 
 			ArrayList<SearchResult> results = new ArrayList<SearchResult>();
 			for(String item : result){
-				SearchResult option = new SearchResult(item, getResources().getDrawable(R.drawable.ic_history));
+				SearchResult option = new SearchResult(
+						item,
+						String.valueOf(item.length()),
+						getResources().getDrawable(R.drawable.ic_history)
+				);
 				results.add(option);
 			}
 
