@@ -6,16 +6,33 @@ public class SearchResult {
     public String title;
     public Drawable icon;
     public String value;
+    public boolean clickable;
 
     /**
-     * Create a search result with text and an icon
+     * Create a search result with text an icon and value
      * @param title
+     * @param value
      * @param icon
      */
     public SearchResult(String title, String value, Drawable icon) {
         this.title = title;
         this.icon = icon;
         this.value = value;
+        this.clickable = true;
+    }
+
+    /**
+     * Create a search result with clickable property
+     * @param title
+     * @param value
+     * @param icon
+     * @param clickable
+     */
+    public SearchResult(String title, String value, Drawable icon, boolean clickable) {
+        this.title = title;
+        this.icon = icon;
+        this.value = value;
+        this.clickable = clickable;
     }
 
     public int viewType = 0;
