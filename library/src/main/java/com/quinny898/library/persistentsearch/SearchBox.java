@@ -601,6 +601,7 @@ public class SearchBox extends RelativeLayout {
 		for(int i=0; i < Math.min(results.size(), getSearchResultLimit()); i++){
 			resultList.add(results.get(i));
 		}
+
 		mAdapter.notifyDataSetChanged();
 	}
 
@@ -666,7 +667,7 @@ public class SearchBox extends RelativeLayout {
 	}
 
 	private void search(SearchResult result, boolean resultClicked) {
-		if (!searchWithoutSuggestions && getNumberOfResults() == 0)return;
+		if (!searchWithoutSuggestions && getNumberOfResults() == 0 || !result.clickable)return;
 		setSearchString(result.title);
 		if (!TextUtils.isEmpty(getSearchText())) {
 			setLogoTextInt(result.title);
